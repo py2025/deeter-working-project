@@ -12,7 +12,7 @@ power turns out to be an artifact of where Thursday closed in its range. See
 | # | Deliverable | Where |
 |---|---|---|
 | 1 | Definitions | [`DEFINITIONS.md`](DEFINITIONS.md) |
-| 2 | Screen | code in [`deeter/`](deeter/); latest list in [`output/`](output/) as a chart (`screen_<date>.png`) and a table (`screen_<date>.csv`). `screen_2025-09-25.*` is an example of a busier week (10 names). |
+| 2 | Screen | code in [`deeter/`](deeter/); Today's (09/24/26) list in [`output/`](output/) as a chart (`screen_2026-09-24.png`) and a table (`screen_2026-09-24.csv`). `screen_2025-09-25.*` is an example of a busier week (10 names). |
 | 3 | Evidence | [`EVIDENCE.md`](EVIDENCE.md) |
 | 4 | Note to the PM: screen | [`notes/pm_note_screen.md`](notes/pm_note_screen.md) |
 | 5 | Note to the PM: alert | [`notes/pm_note_alert.md`](notes/pm_note_alert.md) |
