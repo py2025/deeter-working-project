@@ -1,0 +1,10 @@
+# Downloaded price cache (re-created by the code)
+data/
+
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Project spec (not part of the submission)
+Deeter Analytics - Working Project*.pdf
