@@ -10,11 +10,11 @@ volume (the PM's real size should set this).
 
 ## "Everyone is excited about"
 
-**Rule:** excess return (stock return minus beta × SPY) at least **2.5σ** of the stock's own
+**Rule:** excess return at least **2.5σ** of the stock's own
 stock-specific volatility (`ignition_sigma`; beta and σ from the prior 60 sessions), in the same
 direction as the raw move.
 *Why 2.5σ:* unusual *for this stock* (a 5% day is routine for TSLA, news for KO); it fires on ~3% of
-stock-days, while 2.0σ would fire about monthly for every name.
+trading days, while 2.0σ would fire about monthly for every name.
 *Two meanings:* real attention (news, social, options) or a price-and-volume shock; free data only
 has the second. Up-moves only, or both; I use both, reported separately (long/short book).
 

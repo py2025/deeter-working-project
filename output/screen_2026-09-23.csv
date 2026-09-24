@@ -1,4 +1,0 @@
-ticker,direction,ignition_date,ignition_sigma,rel_volume,consol_days,max_quiet_sigma,hold,close_loc,volume_ratio,consol_excess,votes,lean,earnings,reason
-ARM,1.0,2026-09-21,2.709,3.101,2,0.793,1.204,0.758,0.552,0.062,2,Leans goes,no,"Up 2.7 sigma on 3.1x volume, 2 quiet days holding 120%. For: closed at the top of its range, beat SPY. Against: volume stayed heavy."
-META,1.0,2026-09-21,3.581,3.023,2,0.712,1.037,0.416,0.599,0.014,1,Leans stalls,no,"Up 3.6 sigma on 3.0x volume, 2 quiet days holding 104%. For: beat SPY. Against: closed away from the top of its range, volume stayed heavy."
-MSTR,1.0,2026-09-18,3.157,3.125,3,0.869,1.382,0.039,0.529,0.031,1,Leans stalls,no,"Up 3.2 sigma on 3.1x volume, 3 quiet days holding 138%. For: beat SPY. Against: closed away from the top of its range, volume stayed heavy."

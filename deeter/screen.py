@@ -104,7 +104,7 @@ def plot_screen(df: pd.DataFrame, close: pd.DataFrame, screen_date: pd.Timestamp
             spine.set_visible(side == "bottom")
             spine.set_color(GRID)
 
-    fig.subplots_adjust(left=0.05, right=0.98, top=1 - 1.3 / height, bottom=0.9 / height,
+    fig.subplots_adjust(left=0.05, right=0.98, top=1 - 1.3 / height, bottom=1.3 / height,
                         hspace=0.75, wspace=0.18)
     fig.savefig(path, dpi=150, facecolor=SURFACE)
     plt.close(fig)

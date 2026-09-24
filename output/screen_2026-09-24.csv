@@ -1,0 +1,3 @@
+ticker,direction,ignition_date,ignition_sigma,rel_volume,consol_days,max_quiet_sigma,hold,range_lo,range_hi,close_loc,volume_ratio,consol_excess,votes,lean,earnings,reason
+MSTR,1.0,2026-09-18,3.157,3.125,4,0.869,1.355,158.29,171.19,0.257,0.474,0.03,2,Leans goes,no,"Up 3.2 sigma on 3.1x volume, 4 quiet days holding 135%. For: volume dried up, beat SPY. Against: closed away from the top of its range."
+BFLY,1.0,2026-09-22,4.107,3.772,2,0.99,0.709,8.84,10.05,0.471,0.329,-0.028,1,Leans stalls,no,"Up 4.1 sigma on 3.8x volume, 2 quiet days holding 71%. For: volume dried up. Against: closed away from the top of its range, lagged SPY."
