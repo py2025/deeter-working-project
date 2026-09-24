@@ -15,7 +15,7 @@ import yfinance as yf
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 PRICES_DIR = DATA_DIR / "prices"
-START = "2024-01-01"  # ~2 years of outcome weeks plus 60+ sessions of warm-up
+START = "2016-01-01"  # ~10 years of outcome weeks plus 60+ sessions of warm-up
 CHUNK = 200
 
 NASDAQ_URL = "https://www.nasdaqtrader.com/dynamic/SymDir/nasdaqlisted.txt"

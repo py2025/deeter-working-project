@@ -17,10 +17,10 @@ reason:
 A big move on heavy volume has one of two causes. A **liquidity-driven** move happens because
 someone needed to trade; the price gets pushed and then reverts (Campbell, Grossman & Wang 1993).
 An **information-driven** move is a repricing, and it continues (Llorente, Michaely, Saar & Wang
-2002). The consolidation days are how we tell them apart: a liquidity-driven move usually gives back
+2002). The consolidation days are how I tell them apart: a liquidity-driven move usually gives back
 its gains within a few days, while an information-driven move holds them as volume fades. The
 screen looks for moves that pass that test by Thursday night. The backtest checks whether passing it
-tells us anything about Friday.
+tells me anything about Friday.
 
 ## Notation
 
@@ -47,12 +47,12 @@ Measured as of the session before the ignition day (`I-1`):
 |---|---|---|---|
 | Price | `min_price` | `C_{I-1} > $5` | [M] Below $5, spreads and the minimum tick are large relative to price and many institutions can't hold the stock, so moves there are more often microstructure noise than attention. |
 | Liquidity | `min_dollar_volume` | 20-day median of `C·V` ≥ $20M | [P] At 1% of daily volume, this supports roughly a $200k position without moving the price much. **The PM's real position size should set this; it is a question for the PM.** A median, so one spike can't qualify a stock. |
-| History | `min_history` | ≥ 61 sessions | [S] The 60-session beta and σ need a full window. This excludes recent IPOs, and we say so. |
+| History | `min_history` | ≥ 61 sessions | [S] The 60-session beta and σ need a full window. This excludes recent IPOs, and I say so. |
 
 The candidate list is every **currently** US-listed common stock in the Nasdaq Trader symbol
 directory (`nasdaqlisted.txt` and `otherlisted.txt`). ETFs, test issues, warrants, rights, units,
 preferreds, notes and ETNs are excluded by security type. The price and liquidity rules then remove
-most closed-end funds, SPACs and micro-caps. We planned to use Russell 3000 holdings, but iShares
+most closed-end funds, SPACs and micro-caps. I planned to use Russell 3000 holdings, but iShares
 blocks scripted downloads of its holdings file. The directory is a superset of the Russell 3000, so
 it also catches smaller names the crowd gets excited about. Either list introduces **survivorship
 bias**: stocks that collapsed or delisted during the sample period are missing (see
@@ -152,7 +152,7 @@ again" and "stalls" apart at all.
 
 A name is **flagged, not excluded**, if yfinance reports an earnings date between `I−1` and `D`.
 [M] An earnings-driven move brings a different, well-documented effect (post-earnings drift;
-Bernard & Thomas 1989). [P] We flag rather than filter because yfinance's historical earnings dates
+Bernard & Thomas 1989). [P] I flag rather than filter because yfinance's historical earnings dates
 aren't reliable enough to filter on.
 
 ## Evidence protocol (fixed in advance)
@@ -186,9 +186,9 @@ below with the counts that caused it. Thresholds are **never** adjusted on Frida
 
 ## Where the PM's words could mean two things
 
-| Words | Reading A | Reading B | Our choice |
+| Words | Reading A | Reading B | My choice |
 |---|---|---|---|
-| "Everyone is excited" | Price and volume shock | Real attention (news, social media, options flow) | A, because B isn't available in free data; volume is our proxy. |
+| "Everyone is excited" | Price and volume shock | Real attention (news, social media, options flow) | A, because B isn't available in free data; volume is my proxy. |
 | "Everyone is excited" | Up-moves only | Both directions | Both, reported separately (long/short book). |
 | "Every week" | Ignition in the same week | Ignition in the prior week too | Counted in sessions: 2–4 quiet days before Friday, which reaches back to the prior Friday. |
 | "Consolidation" | Tight range | Holds its gains | Both are required. |
@@ -203,7 +203,7 @@ below with the counts that caused it. Thresholds are **never** adjusted on Frida
   the ones likely to be gone.
 - **Adjusted prices:** yfinance back-adjusts for splits and dividends. This is fine for returns, but
   the $5 price filter is applied to adjusted prices, which can differ from what traded at the time.
-- **No intraday data:** we can't test entries after Friday's open, only open-to-close.
+- **No intraday data:** I can't test entries after Friday's open, only open-to-close.
 - **No real attention data:** news, social media and options flow aren't in free data.
 - **Unreliable earnings dates** (see §7).
 - **No borrow data:** the short side of down-move setups may not have been tradeable.

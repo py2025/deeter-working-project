@@ -63,15 +63,22 @@ def test_no_look_ahead():
                                   find_setups(truncated, Config(), [screen_date]))
 
 
-def friday_outcome(friday_move: float) -> pd.Series:
-    p, screen_date = make_prices(0.10, [0.001, -0.001, 0.001], friday_move)
+def friday_outcome(ignition_move: float, friday_move: float) -> pd.Series:
+    p, screen_date = make_prices(ignition_move, [0.001, -0.001, 0.001], friday_move)
     friday = p["close"].index[IGNITION + 4]
     setups = find_setups(p, Config(), [screen_date])
     return add_outcomes(setups, p, pd.Series([friday], index=[screen_date])).iloc[0]
 
 
 def test_outcome_labels():
-    assert friday_outcome(0.05)["outcome"] == "goes again"
-    assert friday_outcome(0.0)["outcome"] == "stalls"
-    assert friday_outcome(-0.05)["outcome"] == "reverses"
-    assert friday_outcome(0.05)["close_to_close"] > 0.04
+    assert friday_outcome(0.10, 0.05)["outcome"] == "goes again"
+    assert friday_outcome(0.10, 0.0)["outcome"] == "stalls"
+    assert friday_outcome(0.10, -0.05)["outcome"] == "reverses"
+    assert friday_outcome(0.10, 0.05)["close_to_close"] > 0.04
+
+
+def test_outcome_labels_mirror_for_down_moves():
+    # After a down-move, falling further on Friday is "goes again" and counts as a positive return
+    assert friday_outcome(-0.10, -0.05)["outcome"] == "goes again"
+    assert friday_outcome(-0.10, 0.05)["outcome"] == "reverses"
+    assert friday_outcome(-0.10, -0.05)["close_to_close"] > 0.04

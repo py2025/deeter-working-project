@@ -53,14 +53,15 @@ def ignitions(p: dict, e: pd.DataFrame, sigma: pd.DataFrame, cfg: Config) -> pd.
     return in_universe(p, cfg) & big_move & same_way & heavy
 
 
-def find_setups(p: dict, cfg: Config, dates, consolidated: bool = True) -> pd.DataFrame:
+def find_setups(p: dict, cfg: Config, dates, consolidated: bool = True, model=None) -> pd.DataFrame:
     """Every setup whose screen date S is in `dates`: one row per stock, with the numbers
     behind each rule and the lean.
 
     consolidated=False instead returns ignitions that failed the consolidation rules (the
-    backtest's comparison group).
+    backtest's comparison group). `model` is an optional precomputed market_model(p, cfg),
+    so repeated runs (the grid) don't recompute it.
     """
-    e, beta, sigma = market_model(p, cfg)
+    e, beta, sigma = model if model is not None else market_model(p, cfg)
     ignited = ignitions(p, e, sigma, cfg)
     close, volume = p["close"], p["volume"]
     base_volume = volume.rolling(cfg.volume_window).median().shift(1)

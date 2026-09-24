@@ -1,4 +1,4 @@
-"""Backtest over recent weeks (DEFINITIONS.md, Evidence protocol).
+"""Backtest over every week in the data (DEFINITIONS.md, Evidence protocol).
 
 Runs the screen on every historical screen date, labels the following outcome day, and compares
 the setups with (1) every universe stock on the same day and (2) ignitions that didn't consolidate.
@@ -52,9 +52,9 @@ def base_rates(p: dict, cfg: Config, w: pd.Series) -> pd.DataFrame:
 
 
 def backtest(p: dict, cfg: Config, w: pd.Series, base: pd.DataFrame,
-             consolidated: bool = True) -> pd.DataFrame:
+             consolidated: bool = True, model=None) -> pd.DataFrame:
     """Setups on every screen date in `w`, with outcomes and the matching base rates."""
-    df = find_setups(p, cfg, w.index, consolidated)
+    df = find_setups(p, cfg, w.index, consolidated, model)
     if not consolidated:  # a stock can fail more than once a week; keep its latest ignition
         df = df.sort_values("consol_days").drop_duplicates(["date", "ticker"])
     df = add_outcomes(df, p, w)
@@ -108,6 +108,7 @@ def show(table: pd.DataFrame) -> str:
     t = table.copy()
     pct = ["goes_again", "stalls", "reverses", "base_goes", "base_reverses", "edge", "edge_lo",
            "edge_hi", "edge_range_only", "oc_positive"]
+    pct = [c for c in pct if c in t]
     t[pct] = t[pct].astype(float) * 100
     return t.astype(float).round(1).to_string()
 
@@ -121,14 +122,13 @@ def main() -> None:
     df.to_csv(OUTPUT / "backtest_setups.csv", index=False)
 
     busiest = df.groupby("date").size().nlargest(5)
-    half = w.index[len(w) // 2]
+    years = df["date"].dt.year
     groups = {
         "All setups": df,
         "Up-moves": df[df["direction"] > 0],
         "Down-moves": df[df["direction"] < 0],
         **{f"Lean: {lean}": df[df["lean"] == lean] for lean in LEANS.values()},
-        "First half": df[df["date"] < half],
-        "Second half": df[df["date"] >= half],
+        **{f"Year {year}": df[years == year] for year in sorted(years.unique())},
         "Without the 5 busiest weeks": df[~df["date"].isin(busiest.index)],
         "Ignitions that didn't consolidate": backtest(p, cfg, w, base, consolidated=False),
     }
@@ -136,6 +136,19 @@ def main() -> None:
     table.to_csv(OUTPUT / "backtest_summary.csv")
     print("Percentages, except setups, weeks and *_bps (basis points). Ranges are 90%, resampling weeks.\n")
     print(show(table))
+
+    # The close-location check (EVIDENCE.md): how often the next close breaks the range, by the
+    # third of the range Thursday closed in. For setups, thirds are counted in the move's direction.
+    stocks = base.groupby("third")[["base_up", "base_down"]].mean()
+    along = np.where(df["direction"] > 0, df["third"], 2 - df["third"])
+    setups = df.assign(go=df["outcome"] == "goes again", rev=df["outcome"] == "reverses")
+    setups = setups.groupby(along)[["go", "rev"]].mean()
+    close_location = pd.concat([stocks, setups], axis=1).set_axis(
+        ["stocks_break_above", "stocks_break_below", "setups_go_again", "setups_reverse"], axis=1)
+    close_location.index = ["bottom (against the move)", "middle", "top (with the move)"]
+    close_location.to_csv(OUTPUT / "close_location.csv")
+    print("\nNext-close break rates by close third (%)")
+    print((close_location * 100).round(1).to_string())
 
     spy = p["close"]["SPY"]
     print("\nBusiest weeks")
